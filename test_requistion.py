@@ -1,55 +1,73 @@
 from requisition_system import RequisitionSystem
+
 system = RequisitionSystem()
 
-items1 = [
-    {"name": "Pens", "price": 150},
-    {"name": "Notebooks", "price": 300}
-]
-system.add_requisition("03/04/2024", "FN19", "John Paul", items1)
+while True:
 
-items2 = [
-    {"name": "Laptop", "price": 1000}
-]
-system.add_requisition("05/04/2024", "FN20", "Tracy Brown", items2)
+    print("\n===== Requisition System =====")
+    print("1. Create Requisition")
+    print("2. Manager Response")
+    print("3. Display Requisitions")
+    print("4. Display Statistics")
+    print("5. Exit")
 
-items3 = [
-    {"name": "Printer", "price": 2500},
-    {"name": "Toner", "price": 1000}
-]
-system.add_requisition("07/05/2024", "FN15", "Emma Wellington", items3)
+    choice = input("Enter choice: ")
 
-items4 = [
-    {"name": "Desk lamp", "price": 90},
-    {"name": "Chair", "price": 400}
-]
-system.add_requisition("03/05/2024", "FN02", "Catlin White", items4)
+    if choice == "1":
 
-items5 = [
-    {"name": "Keyboard", "price": 200},
-    {"name": "Mouse", "price": 350}
-]
-system.add_requisition("10/05/2024", "FN17", "Kabir Khan", items5)
+        date = input("Enter date: ")
+        staff_id = input("Enter staff ID: ")
+        name = input("Enter staff name: ")
 
-items6 = [
-    {"name": "Stapler", "price": 10.50},
-    {"name": "Tape", "price": 15},
-    {"name": "Sticker", "price": 5}
-]
-system.add_requisition("12/05/2024", "FN11", "Nibas Mohanta", items6)
+        items = []
 
+        while True:
 
-print("\nBefore manager responses")
-system.display_requisitions()
-system.display_statistics()
+            item_name = input("Enter item name: ")
+            price = float(input("Enter price: "))
 
+            items.append({
+                "name": item_name,
+                "price": price
+            })
 
-print("\nManager responses")
+            more = input("Add more items? (yes/no): ")
 
-system.reject_requisition("10003")
-system.approve_requisition("10002")
-system.approve_requisition("10005")
+            if more.lower() != "yes":
+                break
 
+        req = system.add_requisition(
+            date, staff_id, name, items
+        )
 
-print("\nAfter manager responses")
-system.display_requisitions()
-system.display_statistics()
+        print("Requisition ID:", req["requisition_id"])
+        print("Total: $", req["total"])
+        print("Status:", req["status"])
+
+    elif choice == "2":
+
+        req_id = input("Enter requisition ID: ")
+        decision = input("Approve or reject: ").lower()
+
+        if decision == "approve":
+            system.approve_requisition(req_id)
+
+        elif decision == "reject":
+            system.reject_requisition(req_id)
+
+    elif choice == "3":
+
+        system.display_requisitions()
+
+    elif choice == "4":
+
+        system.display_statistics()
+
+    elif choice == "5":
+
+        print("Program closed.")
+        break
+
+    else:
+
+        print("Invalid choice.")
