@@ -76,3 +76,5 @@ class RequisitionSystem:
         print("Approved:", self.approved)
         print("Pending:", self.pending)
         print("Not approved:", self.rejected)
+        
+        
